@@ -3,7 +3,7 @@
     <p class="welcome">Welcome to my website!<br /></p>
     <br />
     <div class="flex-wrapper">
-      <img class="home-image" src="../assets/nathan-gill-landscape.jpeg" />
+      <img class="home-image" src="/assets/nathan-gill-landscape.jpeg" />
     </div>
   </div>
 </template>

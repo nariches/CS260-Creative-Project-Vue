@@ -4,7 +4,7 @@
       <div class="music-grid">
         <div class="item" v-for="item in musicInfo" :key="item.id">
           <div class="image">
-            <img class='image' :src="'../assets/' + item.image"/>
+            <img class='image' :src="'/assets/' + item.image"/>
           </div>
           <div class="info">
             <h1>{{ item.name }}</h1>

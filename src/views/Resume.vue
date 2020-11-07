@@ -4,7 +4,7 @@
     <br />
     <div class="flex-wrapper">
       <div class="resume-container">
-        <img class="resume-image" src="../assets/resume.png" />
+        <img class="resume-image" src="/assets/resume.png" />
       </div>
     </div>
   </div>
