@@ -2,11 +2,24 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/resume">Resume</router-link> |
+      <router-link to="/places-ive-been">Places I've Been</router-link> |
+      <router-link to="/music">Music</router-link> 
     </div>
     <router-view/>
+    <div><Footer/></div>
   </div>
 </template>
+
+<script>
+import Footer from "./components/Footer.vue";
+export default {
+  name: "App",
+  components: {
+    Footer,
+  },
+}
+</script>
 
 <style>
 #app {
@@ -15,6 +28,10 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+body {
+  background-color: #FFFAF0;
 }
 
 #nav {
