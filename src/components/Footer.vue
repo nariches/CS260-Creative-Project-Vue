@@ -3,7 +3,7 @@
     <div class="footer-item">
       <a
         class="footer-left"
-        href=>Github</a
+        href="https://github.com/nariches/creative-project-vue.git">Github</a
       >
     </div>
     <div class="footer-item">
