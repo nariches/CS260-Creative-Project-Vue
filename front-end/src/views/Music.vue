@@ -1,13 +1,26 @@
 <template>
-<div class="music">
-<h3>This is some of my favorite music. Add your own favorite music from the "Add Music" page!</h3>
-  <section class="image-gallery">
-    <div class="image" v-for="item in items" :key="item.id">
-      <h2>{{item.title}}</h2>
-      <img :src="item.path"/>
+  <div class="music">
+    <div class="music-container">
+      <div class="music-grid">
+        <div class="music-item" v-for="item in items" :key="item.id">
+          <div class="album">
+            <img :src="item.path"/>
+          <div class="info">
+            <h4>{{ item.title }}</h4>
+            <h4>{{ item.artist }}</h4>
+            <h4>{{ item.year }}</h4>
+            <div v-if="item.submitter != null">
+              <p>Submitted by:</p>
+            <p>{{ item.submitter.name }}</p>
+            <p>{{ item.submitter.age }}</p>
+            <p>{{ item.submitter.hometown }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
-</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,10 +31,12 @@ export default {
   data() {
     return {
      items: [],
+     persons: [],
     }
   },
   created() {
     this.getItems();
+    this.getPersons();
   },
   methods: {
     async getItems() {
@@ -33,11 +48,25 @@ export default {
         console.log(error);
       }
     },
+    async getPersons() {
+      try {
+        let response = await axios.get("api/persons");
+        this.persons = response.data;
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   }
 }
 </script>
 
 <style scoped>
+img {
+height: 20em;
+width: 20em;
+}
+
 .music-container {
   display: flex;
   justify-content: center;
@@ -62,5 +91,9 @@ export default {
 .album {
   width: 100%;
   height: auto;
+}
+
+.info {
+  line-height: 0.5em;
 }
 </style>

@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const mongoose = require('mongoose');
+// const personSchema = require('./Person').schema;
 
 // connect to the database
 mongoose.connect('mongodb://localhost:27017/richesnathan', {
@@ -23,14 +24,28 @@ const upload = multer({
   }
 });
 
+ // Create a schema foro a person
+ const personSchema = new mongoose.Schema({
+    name: String,
+    age: String,
+    hometown: String,
+  });
+
+  const Person = mongoose.model('Person', personSchema);
+
 // Create a scheme for items in the museum: a title and a path to an image.
-const itemSchema = new mongoose.Schema({
+const albumSchema = new mongoose.Schema({
     title: String,
     path: String,
+    artist: String,
+    year: String,
+    submitter: {type: personSchema},
   });
   
-  // Create a model for items in the museum.
-  const Item = mongoose.model('Item', itemSchema);
+  // Create a model albums
+  const Album = mongoose.model('Album', albumSchema);
+
+  module.exports = mongoose.model('Person', personSchema);
 
   // Upload a photo. Uses the multer middleware for the upload and then returns
 // the path where the photo is stored in the file system.
@@ -44,12 +59,18 @@ app.post('/api/photos', upload.single('photo'), async (req, res) => {
     });
   });
 
-  // Create a new item in the museum: takes a title and a path to an image.
+  // Create a new album
 app.post('/api/items', async (req, res) => {
-    const item = new Item({
+    console.log(req.body);
+    console.log(req.body.submitter);
+    const item = new Album({
       title: req.body.title,
       path: req.body.path,
+      artist: req.body.artist,
+      year: req.body.year,
+      submitter: req.body.submitter,
     });
+    console.log(item);
     try {
       await item.save();
       res.send(item);
@@ -58,22 +79,64 @@ app.post('/api/items', async (req, res) => {
       res.sendStatus(500);
     }
   });
+
+  // Create new person
+  app.post('/api/persons', async (req, res) => {
+      console.log("here!");
+      const person = new Person({
+          name: req.body.name,
+          age: req.body.age,
+          hometown: req.body.hometown,
+      });
+      console.log(person);
+      try {
+          await person.save();
+          res.send(person);
+      } catch (error) {
+          console.log(error);
+          res.sendStatus(500);
+      }
+  });
   
-  // Get a list of all of the items in the museum.
+  // Get a list of all albums
   app.get('/api/items', async (req, res) => {
     try {
-      let items = await Item.find();
+      let items = await Album.find();
       res.send(items);
     } catch (error) {
       console.log(error);
       res.sendStatus(500);
     }
   });
+
+  // Get a list of all persons
+  app.get('/api/persons', async (req, res) => {
+      try {
+          let persons = await Person.find();
+          res.send(persons);
+      } catch (error) {
+          console.log(error);
+          res.sendStatus(500);
+      }
+  });
   
-  //Delete an item from the museum
+  //Delete an album
   app.delete('/api/items/:id', async (req, res) => {
     try {
-      await Item.deleteOne({
+      await Album.deleteOne({
+        _id: req.params.id
+      });
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  });
+
+  // Delete a person
+  app.delete('/api/persons/:id', async (req, res) => {
+    try {
+      await Person.deleteOne({
         _id: req.params.id
       });
       res.sendStatus(200);
@@ -83,12 +146,33 @@ app.post('/api/items', async (req, res) => {
     }
   });
   
+  //Edit album
   app.put('/api/items/:id', async (req, res) => {
-    let item = await Item.findOne({
+    let item = await Album.findOne({
       _id: req.params.id
     });
     try {
       item.title = req.body.title;
+      item.artist = req.body.artist;
+      item.year = req.body.year;
+      item.submitter = req.body.submitter;
+      await item.save();
+      res.send(item);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  });
+
+  //Edit person
+  app.put('/api/persons/:id', async (req, res) => {
+    let person = await Person.findOne({
+      _id: req.params.id
+    });
+    try {
+      person.name = req.body.name;
+      person.age = req.body.age;
+      person.hometown = req.body.hometown;
       await item.save();
       res.send(item);
     } catch (error) {
