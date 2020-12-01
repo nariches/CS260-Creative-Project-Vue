@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Resume from '../views/Resume.vue'
 import PlacesIveBeen from '../views/Places-Ive-Been.vue'
 import Music from '../views/Music.vue'
+import AddMusic from '../views/Add-Music.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     name: 'Music',
     component: Music
   }, 
+  {
+    path: '/add-music',
+    name: 'Add Music',
+    component: AddMusic
+  }
 ]
 
 const router = new VueRouter({

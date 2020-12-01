@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/resume">Resume</router-link> |
       <router-link to="/places-ive-been">Places I've Been</router-link> |
-      <router-link to="/music">Music</router-link> 
+      <router-link to="/music">Music</router-link> |
+      <router-link to="/add-music">Add Music</router-link>
     </div>
     <router-view/>
     <div><Footer/></div>
